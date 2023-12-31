@@ -103,7 +103,7 @@
     },
     /* 小程序特有相关 */
     "mp-weixin" : {
-        "appid" : "",
+        "appid" : "wxa8e8ef66689baee4",
         "setting" : {
             "urlCheck" : false
         },

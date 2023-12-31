@@ -1,0 +1,14 @@
+<template>
+	<image style="width:100%" mode="scaleToFill" :src="bgurl"></image>
+</template>
+
+<script>
+	export default {
+		data() {
+			return {
+				bgurl: 'https://tm-image.tianyancha.com/tm/e679afb66e6bf8a45617aee85b077928.jpg',
+			}
+		}
+	}
+</script>
+
