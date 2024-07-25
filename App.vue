@@ -58,6 +58,7 @@
 </script>
 
 <style lang="scss">
+	@import "@/uni_modules/uview-ui/index.scss";
 	@import '@/uni_modules/uni-scss/index.scss';
 	/* #ifndef APP-PLUS-NVUE */
 	/* uni.css - 通用组件、模板样式库，可以当作一套ui库应用 */

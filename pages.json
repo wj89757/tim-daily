@@ -1,10 +1,13 @@
 {
+	"easycom": {
+		"^u-(.*)": "@/uni_modules/uview-ui/components/u-$1/u-$1.vue"
+	},
 	"pages": [
 		// pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
 			"path": "pages/tim_home/tim_home",
 			"style": {
-				"navigationBarTitleText": "茗俊の小空间",
+				"navigationStyle": "custom",
 				"app-plus": {
 					"bounce": "vertical",
 					"titleNView": {
@@ -73,8 +76,8 @@
 	"globalStyle": {
 		"pageOrientation": "portrait",
 		"navigationBarTitleText": "Hello uniapp",
-		"navigationBarTextStyle": "white",
-		"navigationBarBackgroundColor": "#007AFF",
+		"navigationBarTextStyle": "black",
+		"navigationBarBackgroundColor": "#F8F8F8",
 		"backgroundColor": "#F8F8F8",
 		"backgroundColorTop": "#F4F5F6",
 		"backgroundColorBottom": "#F4F5F6",
@@ -84,7 +87,7 @@
 		"h5": {
 			"maxWidth": 1190,
 			"navigationBarTextStyle": "black",
-			"navigationBarBackgroundColor": "#F1F1F1"
+			"navigationBarBackgroundColor": "#F8F8F8"
 		}
 
 	},

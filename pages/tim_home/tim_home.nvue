@@ -1,14 +1,141 @@
 <template>
-	<image style="width:100%" mode="scaleToFill" :src="bgurl"></image>
+	<view class="uni-flex uni-column u-page">
+		<view class="u-page__item">
+			<!-- 2.0.19支持autoBack，默认为false -->
+			<u-navbar :title="formattedTime" @rightClick="rightClick">
+				<view class="u-nav-slot-own" slot="left">
+					<u-icon name="arrow-left" size="20"></u-icon>
+					<u-line direction="column" :hairline="false" length="16" margin="0 8px"></u-line>
+					<u-icon name="home" size="20"></u-icon>
+				</view>
+			</u-navbar>
+		</view>
+		<br/>
+		<view class="flex-item flex-item-V uni-bg-green">
+			<uni-section title="">
+				<uni-card title="Big! Day! ">
+					<uni-title type="h1" :title="leftTravelDay"></uni-title>
+					<uni-title type="h1" :title="leftBirthDay"></uni-title>
+				</uni-card>
+			</uni-section>
+			<uni-section title="">
+				<uni-card title="今天吃什么">
+					<button class="button popup-success" @click="whatEat()">
+						<text class="button-text success-text">来一轮</text>
+					</button>
+				</uni-card>
+			</uni-section>
+		</view>
+
+
+		<view>
+			<!-- 提示窗示例 -->
+			<uni-popup ref="alertDialog" type="dialog">
+				<uni-popup-dialog type="success" cancelText="不你不想" confirmText="可" title="你想吃这个!"
+					:content="foodContent">
+
+				</uni-popup-dialog>
+			</uni-popup>
+		</view>
+	</view>
 </template>
 
 <script>
 	export default {
 		data() {
 			return {
-				bgurl: 'https://tm-image.tianyancha.com/tm/e679afb66e6bf8a45617aee85b077928.jpg',
+				startTime: new Date("2023-01-15T00:00:00"),
+				travelTime: new Date("2024-09-13T00:00:00"),
+				birthTime: new Date("2024-12-29T00:00:00"),
+				formattedTime: "",
+				leftTravelDay: "",
+				leftBirthDay: "",
+				foodContent: ""
+			};
+		},
+		methods: {
+			whatEat() {
+				const on_this = this
+				uni.request({
+					url: 'http://springboot-o4jt.fcv3.1750346123464881.cn-hangzhou.fc.devsapp.net/what-to-eat',
+					success: function(res) {
+						on_this.$refs.alertDialog.open()
+						on_this.foodContent = res.data['food']
+					}
+				})
+			},
+			timeDiffInWords(start, end) {
+				const diff = end - start;
+				const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+				const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+				const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+				const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+				return {
+					totalSeconds: Math.floor(diff / 1000),
+					days,
+					hours,
+					minutes,
+					seconds
+				};
+			},
+			formatTimeDiff(diff) {
+				return `${diff.days}天${diff.hours}小时${diff.minutes}分${diff.seconds}秒`;
+			},
+			calculateTimeElapsed() {
+				const now = new Date();
+				const travelDiff = this.timeDiffInWords(new Date(), this.travelTime);
+				const birthDiff = this.timeDiffInWords(new Date(), this.birthTime)
+				this.formattedTime = '冥王星' + this.timeDiffInWords(this.startTime, now).days + '天💓';
+				this.leftTravelDay = `距离去新西兰🇳🇿还有${travelDiff.days}天`;
+				this.leftBirthDay = `距离宝贝生日🎂还有${birthDiff.days}天`;
 			}
+		},
+		created() {
+			this.calculateTimeElapsed();
+			this.timerID = setInterval(() => {
+				this.calculateTimeElapsed();
+			}, 1000);
+		},
+		beforeDestroy() {
+			clearInterval(this.timerID);
 		}
 	}
 </script>
+<style lang="scss">
+	/* #ifndef APP-NVUE */
+	page {
+		background-color: $u-bg-color;
+	}
+	/* #endif */
+	
+	.u-nav-slot-own {
+		@include flex;
+		align-items: center;
+		justify-content: space-between;
+		border-width: 0.5px;
+		border-radius: 100px;
+		border-color: $u-border-color;
+		padding: 3px 7px;
+		opacity: 0.8;
+	}
+	.u-page {
+		padding: 0;
+		flex: 1;
+		background-color: $u-bg-color;
 
+		&__item {
+
+			&__title {
+				color: $u-tips-color;
+				background-color: $u-bg-color;
+				padding: 15px;
+				font-size: 15px;
+
+				&__slot-title {
+					color: $u-primary;
+					font-size: 14px;
+				}
+			}
+		}
+	}
+</style>

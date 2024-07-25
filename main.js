@@ -3,6 +3,8 @@ import store from './store'
 
 // #ifndef VUE3
 import Vue from 'vue'
+import uView from '@/uni_modules/uview-ui'
+Vue.use(uView)
 Vue.config.productionTip = false
 Vue.prototype.$store = store
 Vue.prototype.$adpid = "1111111111"
